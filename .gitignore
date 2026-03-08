@@ -6,4 +6,7 @@ bin/
 *.obj
 *.bat
 *.dll
+*.a
+*.lib
+*.json
 .vscode/
