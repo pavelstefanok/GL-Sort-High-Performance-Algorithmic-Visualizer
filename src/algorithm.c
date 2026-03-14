@@ -1,5 +1,8 @@
 #include "../include/sort_interface.h"
 #include <stdint.h>
+//needed for the quicksort since i want to avoid recursion as the code is embedded-ready.
+#define MAX_ELEMENTS 1024
+#define STACK_SIZE 64
 //temporary pointer swap function
 static inline void swap_ptr(int32_t* a, int32_t* b) {
     int32_t temp = *a;
@@ -31,7 +34,7 @@ __declspec(dllexport) void bubble_sort_basic(int32_t* array, int32_t size, Visua
     }
 }
 
-
+// partition function for quicksort
 static int32_t partition(int32_t* base_arr, int32_t low, int32_t high, VisualCallback onSwap, VisualCallback onCompare) {
     int32_t pivot = *(base_arr + high); 
     int32_t i = low - 1;
@@ -52,21 +55,34 @@ static int32_t partition(int32_t* base_arr, int32_t low, int32_t high, VisualCal
     
     return i + 1;
 }
-// Recursive quicksort helper since i got in an interest bug with the visualizer bars were 
-// wrong because recursion was shifting the array pointer.
-// Now using a fixed base to keep indices consistent with the screen.
 
-static void quick_sort_recursive(int32_t* base, int32_t low, int32_t high, VisualCallback onSwap, VisualCallback onCompare) {
-    if (low < high) {
-        int32_t pi = partition(base, low, high, onSwap, onCompare);
-
-        quick_sort_recursive(base, low, pi - 1, onSwap, onCompare);
-        quick_sort_recursive(base, pi + 1, high, onSwap, onCompare);
-    }
-}
-
-__declspec(dllexport) void quick_sort_basic(int32_t* arr, int32_t n, VisualCallback onSwap, VisualCallback onCompare) {
-    if (arr == NULL || n <= 1) return;
+__declspec(dllexport) void quick_sort_iterative(int32_t* arr, int32_t n, VisualCallback onSwap, VisualCallback onCompare) {
+    if (arr == NULL || n <= 1 || n > MAX_ELEMENTS) return;
+    // Using an explicit stack to avoid recursion
+    static int32_t static_stack[STACK_SIZE];
+    int32_t top = -1;
     
-    quick_sort_recursive(arr, 0, n - 1, onSwap, onCompare);
+    static_stack[++top] = 0;
+    static_stack[++top] = n - 1;
+    
+    while (top >= 0) {
+        int32_t high = static_stack[top--];
+        int32_t low = static_stack[top--];
+
+        int32_t p = partition(arr, low, high, onSwap, onCompare);
+
+        if (top + 4 >= STACK_SIZE) {
+            break; 
+        }
+
+        if (p - 1 > low) {
+            static_stack[++top] = low;
+            static_stack[++top] = p - 1;
+        }
+
+        if (p + 1 < high) {
+            static_stack[++top] = p + 1;
+            static_stack[++top] = high;
+        }
+    }
 }
