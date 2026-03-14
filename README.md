@@ -10,15 +10,22 @@ https://github.com/user-attachments/assets/194c467f-b15f-446b-9dd7-2c71001dc3c6
 ## Download & Run
 You can download the compiled version (no setup required) from the **[Latest Release](https://github.com/pavelstefanok/GL-Sort-High-Performance-Algorithmic-Visualizer/releases)**.
 
-1. Download the `GL-Sort-vx.x.zip` file.
-2. Extract the archive (ensure `algorithm.dll` and all system `.dll` files are in the same folder as `app.exe`).
+1. Download the `GL-Sort.rar` file.
+2. Extract the archive.
 3. Run `app.exe`.
    * **Controls:** * `SPACE`: Reshuffle the array with animation.
-     * `S`: Trigger **Bubble Sort** from the external DLL.
      * `Orbit Camera`: Automatic rotation enabled by default.
+     * The Yellow bar is the .
 
 ---
+##  Visual Feedback & Legend
+The visualizer uses a dynamic color-coding system to represent the algorithm's internal state in real-time:
 
+* 🟡 **Yellow:** Represents the **Active Element** or **Pivot** currently being processed.
+* 🟣 **Magenta:** Indicates the **Comparison Target** (the element being compared against the active one).
+* 🟢 **Green:** Highlighted during a **Swap** operation or the final **Success Animation**.
+* 🔹 **Cyan Gradient:** The default state, where color intensity is mapped to the element's height.
+---
 ## Key Technical Features
 * **GPU Instancing:** Uses `glDrawArraysInstanced` to render the entire array in a single draw call, significantly reducing CPU overhead.
 * **Embedded-Ready Core:**
