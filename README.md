@@ -43,23 +43,33 @@ The visualizer uses a dynamic color-coding system to represent the algorithm's i
 ## Tech Stack
 * **Language:** C++ / C (Embedded-style logic)
 * **Graphics:** OpenGL 4.0 (GLEW, FreeGLUT)
+* **Shaders:** GLSL
 * **API:** Win32 API (Dynamic Library Loading, Message Polling)
 * **Compiler:** MinGW-w64 (MSYS2)
 
 ---
 
-## Project Structure
-* `src/`: Core engine logic (`main.cpp`)
-* `include/`: Shared header files and sorting interface.
-* `algorithm.dll`: The modular library containing the sorting logic.
+##  Project Structure
+* `src/`: Core engine logic, UI mapping, and input handling.
+* `shaders/`: **Critical** custom GLSL files for vertex transformations and height-based color interpolation. 
+* `algorithm.dll`: Modular library containing iterative (non-recursive) sorting logic.
+* `include/`: Shared headers and the sorting interface for the DLL.
+
 ---
 
-## Work in Progress
-This project is an evolving platform. Upcoming features include:
+##  Roadmap
 
-* [ ] **Advanced Algorithms:** Adding QuickSort, MergeSort, RadixSort, etc.. to the DLL.
-* [ ] **Sonification:** Thinking of integrating **MATLAB** to generate real-time audio frequencies based on array values.
-* [ ] **Interactive UI:** On-screen controls for simulation speed and dataset size.
+* [x] **UI:** Interactive buttons and dual-slider system for Size and Speed control.
+
+* [x] **Coordinate Mapping:** Resolution-independent HUD and UI elements.
+
+* [ ] **More Algorithms**.
+
+* [ ] **Sonification:** Audio frequency generation based on array values for real-time auditory feedback.
+
+* [ ] **etc**.
+
+
 
 ---
 
